@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts",
+    "docker:up": "docker compose -f docker/docker-compose.yml --project-directory . up -d --build --force-recreate"
+  },
+  "dependencies": {
+    "hono": "^4.4.5"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

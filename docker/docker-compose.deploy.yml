@@ -1,0 +1,11 @@
+# Deployment file for docker-compose with Coolify.
+# We only have non-db services in this file as database services are created and managed with Coolify directly.
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: services/api
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
