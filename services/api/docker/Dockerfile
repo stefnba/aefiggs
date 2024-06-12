@@ -14,6 +14,7 @@ COPY --link bun.lockb package.json ./
 RUN bun install --ci
 
 COPY --link src /app/src
+COPY --link drizzle /app/drizzle
 
 FROM base
 
