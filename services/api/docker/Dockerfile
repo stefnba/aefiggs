@@ -15,6 +15,7 @@ RUN bun install --ci
 
 COPY --link src /app/src
 COPY --link drizzle /app/drizzle
+COPY --link tsconfig.json .
 
 FROM base
 
