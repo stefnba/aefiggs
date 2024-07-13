@@ -1,0 +1,68 @@
+# Local development docker-compose file
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: ./services/api
+      dockerfile: ./docker/Dockerfile.dev
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+    ports:
+      - 3000:3000
+      - 4983:4983 # todo drizzle studio port
+    command: bun run dev
+    volumes:
+      - ./services/api/src:/app/src
+
+  db:
+    image: postgres:16.3-alpine
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 5499:5432
+    volumes:
+      - aefigs-pg-data:/var/lib/postgresql/data/ 
+
+  server:
+    build:
+      context: ./services/pipelines
+      dockerfile: ./docker/Dockerfile
+      target: server
+    restart: always
+    volumes:
+      - prefect:/root/.prefect
+    entrypoint: ["prefect", "server", "start"]
+    env_file:
+      - .env
+    environment:
+      - PREFECT_SERVER_API_HOST=0.0.0.0
+      - PREFECT_API_URL=http://host:4200/api
+    ports:
+      - 4200:4200
+
+  flows:
+    build:
+      context: ./services/pipelines
+      dockerfile: ./docker/Dockerfile
+      target: flows
+    entrypoint: ["python", "/app/code/main.py"]
+    env_file:
+      - .env
+    volumes:
+      - ./services/pipelines/code:/app/code
+    restart: always
+    depends_on:
+      - server
+    environment:
+      - PREFECT_API_URL=http://server:4200/api
+      - PYTHONPATH=/app/code
+
+volumes:
+  aefigs-pg-data:
+  prefect:
