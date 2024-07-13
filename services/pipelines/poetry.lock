@@ -2020,6 +2020,24 @@ snowflake = ["prefect-snowflake"]
 sqlalchemy = ["prefect-sqlalchemy"]
 
 [[package]]
+name = "prefect-sqlalchemy"
+version = "0.4.3"
+description = "Prefect integrations for working with databases"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "prefect_sqlalchemy-0.4.3-py3-none-any.whl", hash = "sha256:3e9994f05ac53aaa7a51f94fbdc36087d77c3bda27e5bd78e7f2157d9bdcbdf8"},
+    {file = "prefect_sqlalchemy-0.4.3.tar.gz", hash = "sha256:08b4ff590b790b22d0b016d085a8f3cb18103e22eb9a52eb113ad8938599cc65"},
+]
+
+[package.dependencies]
+prefect = ">=2.13.5,<3.0.0"
+sqlalchemy = ">=1.4.31,<3"
+
+[package.extras]
+dev = ["aiosqlite", "asyncpg", "coverage", "interrogate", "mkdocs", "mkdocs-gen-files", "mkdocs-material", "mkdocstrings[python]", "mock", "mypy", "pillow", "pre-commit", "psycopg2", "pytest", "pytest-asyncio", "pytest-xdist"]
+
+[[package]]
 name = "prompt-toolkit"
 version = "3.0.47"
 description = "Library for building powerful interactive command lines in Python"
@@ -3480,4 +3498,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "4e6a0e2f11bb7945f3fc5c238f513e60316cfded1fff3e05635d60553377cdbc"
+content-hash = "f798caf10e0c5a920ca4907bcc137dc3bc37e5eefde50738cbc97a08ecfdace2"

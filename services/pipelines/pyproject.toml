@@ -74,6 +74,7 @@ polars = "^1.0.0"
 duckdb = "^1.0.0"
 pandas = "^2.2.2"
 psycopg = {extras = ["binary"], version = "^3.2.1"}
+prefect-sqlalchemy = "^0.4.3"
 
 
 [tool.poetry.group.dev.dependencies]
