@@ -6,6 +6,7 @@ from prefect import flow, get_run_logger, task
 from prefect.blocks.system import String
 from hooks.postgres.hook import copy_to_db, PostgresConnection
 import datetime
+from prefect_sqlalchemy import DatabaseCredentials
 
 import typing as t
 
@@ -54,7 +55,9 @@ def sink_rates(data: pl.DataFrame) -> None:
     Copy the data to the database using the provided connection by a block.
     """
 
-    conn = PostgresConnection(dbname="app", user="app_user", password="password", host="db", port=5432)
+    database_block = DatabaseCredentials.load("app-db")
+
+    conn = PostgresConnection(dbname=database_block.database, user=database_block.username, password=database_block.password.get_secret_value(), host=database_block.host, port=database_block.port,)
 
     copy_to_db(connection=conn, table="currency_rate", columns=COLS, records=data.rows())
 
